@@ -1,0 +1,8 @@
+__pycache__
+*.pyc
+api/exported-models/checkpoint
+api/exported-models/pipeline.config
+Projects_MB.xlsx
+tmp.py
+*.ipynb
+.pytest_cache

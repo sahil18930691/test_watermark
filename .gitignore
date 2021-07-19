@@ -1,0 +1,9 @@
+__pycache__
+*.pyc
+api/exported-models
+Projects_MB.xlsx
+tmp.py
+*.ipynb
+1.jpg
+.ipynb_checkpoints
+.pytest_cache
