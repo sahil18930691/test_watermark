@@ -1,9 +1,11 @@
 import os
 import requests
 from io import BytesIO
+from typing import Optional
 
 import numpy as np
 from PIL import Image
+from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 
@@ -12,18 +14,28 @@ SQUARE_YARDS_LOGO = Image.open('images/slogo.png')
 
 app = FastAPI()
 
+class ImageDetails(BaseModel):
+    url_: str
+    width_percentage: Optional[float] = 0.1
 
-@app.get("/addWatermark")
-async def replace_watermark_url(URL: str):
+@app.post("/addWatermark")
+async def replace_watermark_url(image_details: ImageDetails):
+    URL = image_details.url_
+    width_percentage = image_details.width_percentage
+
     if URL.lower().endswith((".jpg", ".png", ".jpeg")) == False:
-        raise HTTPException(status_code=400, detail="Not a valid URL")
+        raise HTTPException(status_code=406, detail="Not a valid URL")
+
+    if width_percentage > 1:
+        raise HTTPException(status_code=406, detail="Please chose a value between 0.01 and 1.0")
 
     try:
         contents = requests.get(URL, timeout=10).content
         original_image = Image.open(BytesIO(contents))
         squareyard_logo = SQUARE_YARDS_LOGO.copy()
+        # squareyard_logo.putalpha(50)
 
-        slogo_width = int(original_image.size[0]*0.3)
+        slogo_width = int(original_image.size[0]*width_percentage)
         slogo_height = int(squareyard_logo.size[1]*(slogo_width/squareyard_logo.size[0]))
         squareyard_logo = squareyard_logo.resize((slogo_width, slogo_height))
 
