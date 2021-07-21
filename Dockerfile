@@ -8,6 +8,7 @@ WORKDIR /api
 
 COPY requirements.txt .
 
+
 # Installing API dependencies other than object detection API and Tensorflow
 RUN pip install --upgrade pip && pip install --trusted-host pypi.python.org --use-deprecated=legacy-resolver -r requirements.txt
 
