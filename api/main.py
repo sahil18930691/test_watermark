@@ -54,9 +54,10 @@ async def add_watermark(image_details: ImageDetails):
     if width_percentage > 1:
         raise HTTPException(status_code=406, detail="Please chose a value between 0.01 and 1.0")
 
+    contents = None
+    original_image = None
     try:
         # contents = requests.get(URL, timeout=10).content
-        contents = None
         async with aiohttp.ClientSession() as session:
             async with session.get(URL) as resp:
                 print(resp.status)
@@ -66,6 +67,11 @@ async def add_watermark(image_details: ImageDetails):
             raise HTTPException(status_code=406, detail="No image found.")
 
         original_image = Image.open(BytesIO(contents))
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=400, detail="Error while reading the image. Make sure that the URL is a correct image link.")
+    
+    try:
         squareyard_logo = SQUARE_YARDS_LOGO.copy()
 
         slogo_width = int(original_image.size[0]*width_percentage)
@@ -80,7 +86,7 @@ async def add_watermark(image_details: ImageDetails):
         original_image.save(buf, format='JPEG', quality=100)
         buf.seek(0)
     except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail="Internal Server Error. Make sure that the URL is correct image link.")
+            print(e)
+            raise HTTPException(status_code=500, detail="Error while processing the image.")
 
     return StreamingResponse(buf, media_type="image/jpeg", headers={'Content-Disposition': 'inline; filename="%s.jpeg"' %(filename.split(".")[0],)})

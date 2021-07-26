@@ -19,7 +19,7 @@ def test_addWatermark():
 
     data = {"url_": "https://propsamc-data-staging.s3.amazonaws.com/Online_Prdsdojects/PRMB0B2531_145604572553.jpg"}
     response = client.post("/addWatermark", headers=headers, json=data)
-    assert response.status_code == 500
+    assert response.status_code == 400
 
     data = {"url_": "https://google.com"}
     response = client.post("/addWatermark", headers=headers, json=data)
@@ -29,6 +29,8 @@ def test_addWatermark():
     response = client.post("/addWatermark", headers=headers, json=data)
     assert response.status_code == 406
 
+
+def test_extract_filename():
     filename = main.extract_filename("https://images.unsplash.com/photo-1626080308314-d7868286cce2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80")
     assert filename == "photo-1626080308314-d7868286cce2"
 
