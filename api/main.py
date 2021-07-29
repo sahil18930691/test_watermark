@@ -44,11 +44,12 @@ async def add_watermark(image_details: ImageDetails):
     filename = None
     try:
         filename = extract_filename(URL)
+        filename = filename.strip()
     except Exception as e:
         print(e)
         raise HTTPException(status_code=406, detail="Not a valid URL")
 
-    if URL.lower().endswith((".jpg", ".png", ".jpeg")) == False:
+    if URL.lower().endswith((".jpg", ".png", ".jpeg", ".gif", ".webp")) == False:
         raise HTTPException(status_code=406, detail="Not a valid URL")
 
     if width_percentage > 1:
@@ -82,11 +83,17 @@ async def add_watermark(image_details: ImageDetails):
         left = (original_image.size[0]//2) - (slogo_width//2)
         original_image.paste(squareyard_logo, (left, top), mask=squareyard_logo)
 
+        format_ = filename.split(".")[-1]
+        if format_.lower() == "jpg":
+            format_ = "jpeg"
+        elif format_.lower == "webp":
+            format_ = "WebP"
+
         buf = BytesIO()
-        original_image.save(buf, format='JPEG', quality=100)
+        original_image.save(buf, format=format_, quality=100)
         buf.seek(0)
     except Exception as e:
             print(e)
             raise HTTPException(status_code=500, detail="Error while processing the image.")
 
-    return StreamingResponse(buf, media_type="image/jpeg", headers={'Content-Disposition': 'inline; filename="%s.jpeg"' %(filename.split(".")[0],)})
+    return StreamingResponse(buf, media_type="image/jpeg", headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
