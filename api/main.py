@@ -77,6 +77,10 @@ async def add_watermark(image_details: ImageDetails):
 
         slogo_width = int(original_image.size[0]*width_percentage)
         slogo_height = int(squareyard_logo.size[1]*(slogo_width/squareyard_logo.size[0]))
+
+        if slogo_height > original_image.size[1]:
+            slogo_height = original_image.size[1]
+            
         squareyard_logo = squareyard_logo.resize((slogo_width, slogo_height))
 
         top = (original_image.size[1]//2) - (slogo_height//2)
