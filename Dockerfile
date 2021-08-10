@@ -27,4 +27,4 @@ RUN rm -rf ../tests
 ENV PORT="${PORT:-8080}"
 
 # Docker entrypoint
-CMD gunicorn main:app --bind 0.0.0.0:$PORT --workers=2 --threads 4 --timeout 600 -k uvicorn.workers.UvicornWorker
+CMD gunicorn main:app --bind 0.0.0.0:$PORT --workers=4 -k uvicorn.workers.UvicornWorker
