@@ -172,7 +172,7 @@ async def add_watermark(image_details: ImageDetails):
             print(e)
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
-    return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
+    return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(format_,)})
  
  
 @app.post("/addWatermarkIC")
