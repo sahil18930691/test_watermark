@@ -14,15 +14,15 @@ RUN pip install --upgrade pip && pip install --trusted-host pypi.python.org --us
 COPY api .
 
 # Testing code before spinning up the API
-WORKDIR /tests
+# WORKDIR /tests
 
-COPY tests .
+# COPY tests .
 
-RUN pytest
+# RUN pytest
 
-WORKDIR /api
+# WORKDIR /api
 
-RUN rm -rf ../tests
+# RUN rm -rf ../tests
 
 ENV PORT="${PORT:-8080}"
 
