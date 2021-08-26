@@ -198,7 +198,7 @@ async def add_watermark(image_details: ImageDetails):
     3. compression_info: Details regarding image compression.
     4. position: position of logo on image.
     """
-    URL = image_details.url_.url_
+    URL = image_details.url_
     width_percentage = image_details.width_percentage
     position = image_details.position
     filename, original_image = await get_image_properties(URL, width_percentage, position)
