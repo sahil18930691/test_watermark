@@ -70,6 +70,8 @@ async def get_image_properties(URL, width_percentage=None, position=None):
             raise HTTPException(status_code=406, detail="No image found.")
  
         original_image = Image.open(BytesIO(contents))
+        
+
     except Exception as e:
         print(e)
         raise HTTPException(status_code=400, detail="Error while reading the image. Make sure that the URL is a correct image link.")
@@ -126,24 +128,24 @@ def get_format(filename):
  
  
 def get_content_type(format_):
-    type_ = "image/webp"
+    type_ = "image/jpeg"
     if format_ == "gif":
-        type_ = "image/webp"
+        type_ = "image/gif"
     elif format_ == "webp":
         type_ = "image/webp"
     elif format_ == "png":
-        type_ = "image/webp"
-    print(type_)
+        type_ = "image/png"
+
     return type_
  
  
 def get_final_image(image_details, original_image, width_percentage, logo, position, filename):
     original_image = paste_logo(original_image, width_percentage, logo, position)
     format_ = get_format(filename)
- 
     quality = 70
 
     return original_image, format_, quality
+
  
 @app.post("/addWatermark")
 async def add_watermark(image_details: ImageDetails):
@@ -156,9 +158,11 @@ async def add_watermark(image_details: ImageDetails):
     """
     URL = image_details.url_.url_
     width_percentage = image_details.width_percentage
+
     position = image_details.position
+    
     filename, original_image = await get_image_properties(URL, width_percentage, position)
- 
+
     try:
         squareyard_logo = SQUARE_YARDS_LOGO.copy()
         original_image, format_, quality = get_final_image(image_details, original_image, width_percentage, squareyard_logo, position, filename)
@@ -166,13 +170,20 @@ async def add_watermark(image_details: ImageDetails):
         if format_ == 'gif':
             frames = [get_final_image(image_details, frame.copy(), width_percentage, squareyard_logo, position, filename)[0] for frame in ImageSequence.Iterator(original_image)]
             frames[0].save(buf, save_all=True, append_images=frames[1:], format=format_, quality=quality, optimize=True)
+        elif format_ == 'png':
+            format_ = 'webp'
+            original_image.save(buf, format=format_, quality = 70, optimize=True)
         else:
-            original_image.save(buf, format=format_, quality=quality, optimize=True)
+            original_image.save(buf, format=format_, quality = 70, optimize=True)
+
+            
     except Exception as e:
             print(e)
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
-    return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(format_,)})
+
+
+    return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
  
  
 @app.post("/addWatermarkIC")
@@ -204,3 +215,9 @@ async def add_watermark(image_details: ImageDetails):
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
+
+
+
+
+    
+    
