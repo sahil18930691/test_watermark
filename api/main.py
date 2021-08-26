@@ -6,7 +6,7 @@ from enum import Enum
 from io import BytesIO
 from typing import Optional
 from urllib.parse import urlparse
-
+#import uvicorn
 import numpy as np
 from PIL import Image, ImageSequence
 from pydantic import BaseModel
@@ -24,13 +24,16 @@ app = FastAPI(
     version="1.0",
 )
 
+@app.get("/")
+async def root():
+    return "Hello World!!!"
 
 class URL(BaseModel):
     url_: str
  
  
 class ImageDetails(BaseModel):
-    url_: URL
+    url_: str
     width_percentage: Optional[float] = 0.2
     position: Optional[str] = "centre"
 
@@ -156,7 +159,7 @@ async def add_watermark(image_details: ImageDetails):
     3. compression_info: Details regarding image compression.
     4. position: position of logo on image.
     """
-    URL = image_details.url_.url_
+    URL = image_details.url_
     width_percentage = image_details.width_percentage
 
     position = image_details.position
@@ -218,6 +221,6 @@ async def add_watermark(image_details: ImageDetails):
 
 
 
-
-    
-    
+'''
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8001)'''
