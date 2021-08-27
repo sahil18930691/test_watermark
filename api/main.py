@@ -175,7 +175,7 @@ async def add_watermark(image_details: ImageDetails):
             frames[0].save(buf, save_all=True, append_images=frames[1:], format=format_, quality=quality, optimize=True)
         elif format_ == 'png':
             format_ = 'webp'
-            original_image.save(buf, format="format_", quality = 70, optimize=True)
+            original_image.save(buf, format=format_, quality = 70, optimize=True)
         else:
             original_image.save(buf, format=format_, quality = 70, optimize=True)
 
