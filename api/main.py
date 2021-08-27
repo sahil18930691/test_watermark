@@ -6,7 +6,7 @@ from enum import Enum
 from io import BytesIO
 from typing import Optional
 from urllib.parse import urlparse
-
+import uvicorn
 import numpy as np
 from PIL import Image, ImageSequence
 from pydantic import BaseModel
@@ -175,7 +175,7 @@ async def add_watermark(image_details: ImageDetails):
             frames[0].save(buf, save_all=True, append_images=frames[1:], format=format_, quality=quality, optimize=True)
         elif format_ == 'png':
             format_ = 'webp'
-            original_image.save(buf, format=format_, quality = 70, optimize=True)
+            original_image.save(buf, format="png", quality = 70, optimize=True)
         else:
             original_image.save(buf, format=format_, quality = 70, optimize=True)
 
@@ -221,3 +221,5 @@ async def add_watermark(image_details: ImageDetails):
 
 
 
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8001)
