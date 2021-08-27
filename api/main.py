@@ -6,7 +6,7 @@ from enum import Enum
 from io import BytesIO
 from typing import Optional
 from urllib.parse import urlparse
-import uvicorn
+
 import numpy as np
 from PIL import Image, ImageSequence
 from pydantic import BaseModel
@@ -220,6 +220,3 @@ async def add_watermark(image_details: ImageDetails):
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
 
 
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8001)
