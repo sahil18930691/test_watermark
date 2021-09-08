@@ -309,16 +309,20 @@ async def get_body(URL):
     return original_image
 
 @app.get("/enhancement")
-async def get_body(Enhance_image: str):
+async def enhancement(Enhance_image: str):
+    """ 
+    #### The endpoint takes image url as inputs in the form of JSON, enhance the image and then return the enhanced image.\n
+    1. Enhance_image: Url of the image.
+    """
 
-    print(Enhance_image)
+    #print(Enhance_image)
     response = requests.get(Enhance_image)
     image_bytes = io.BytesIO(response.content)
-    print(image_bytes)
+    #print(image_bytes)
     image = PIL.Image.open(image_bytes)
-    print(image)
+    #print(image)
     filename = Enhance_image
-    print(filename)
+    #print(filename)
     #this function get the format type of input image
     def get_format(filename):
         format_ = filename.split(".")[-1]
@@ -463,9 +467,9 @@ async def get_body(Enhance_image: str):
 
 
 @app.post("/enhancement_logo")
-async def add_watermark(image_details: ImageDetails):
+async def enhancement_logo(image_details: ImageDetails):
     """ 
-    #### The endpoint takes multiple parameters as inputs in the form of JSON and pastes the Square Yards logo as a watermark on the input images.\n
+    #### The endpoint takes multiple parameters as inputs in the form of JSON ,enhance the image and then pastes the Square Yards logo as a watermark on the input images and then compresses it.\n
     1. url_: Url of the image.
     2. width_percentage: Size of watermark based on the width of the image. Range (0-1).
     3. compression_info: Details regarding image compression.
@@ -507,7 +511,7 @@ async def add_watermark(image_details: ImageDetails):
 @app.post("/addWatermark")
 async def add_watermark(image_details: ImageDetails):
     """ 
-    #### The endpoint takes multiple parameters as inputs in the form of JSON and pastes the Square Yards logo as a watermark on the input images.\n
+    #### The endpoint takes multiple parameters as inputs in the form of JSON, pastes the Square Yards logo as a watermark on the input images and then compresses it.\n
     1. url_: Url of the image.
     2. width_percentage: Size of watermark based on the width of the image. Range (0-1).
     3. compression_info: Details regarding image compression.
@@ -544,7 +548,7 @@ async def add_watermark(image_details: ImageDetails):
  
  
 @app.post("/addWatermarkIC")
-async def add_watermark(image_details: ImageDetails):
+async def add_watermarkIC(image_details: ImageDetails):
     """ 
     #### The endpoint takes multiple parameters as inputs in the form of JSON and pastes the Interior Company logo as a watermark on the input images.\n
     1. url_: Url of the image.
