@@ -576,6 +576,3 @@ async def add_watermarkIC(image_details: ImageDetails):
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
-
-
-
