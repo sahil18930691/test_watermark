@@ -18,8 +18,8 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 
 
-SQUARE_YARDS_LOGO = Image.open('images/slogo.png')
-IC_LOGO = Image.open('images/iclogo2.png')
+SQUARE_YARDS_LOGO = Image.open('./slogo.png')
+IC_LOGO = Image.open('./iclogo2.png')
 POSI_LIST = ["centre", "bottom_left", "bottom_right", "bottom"]
 
 app = FastAPI(
