@@ -18,8 +18,8 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 
 
-SQUARE_YARDS_LOGO = Image.open('images/slogo.png')
-IC_LOGO = Image.open('images/iclogo2.png')
+SQUARE_YARDS_LOGO = Image.open('./slogo.png')
+IC_LOGO = Image.open('./iclogo2.png')
 POSI_LIST = ["centre", "bottom_left", "bottom_right", "bottom"]
 
 app = FastAPI(
@@ -158,11 +158,11 @@ async def get_body(URL):
     #print(Enhance_image)
     response = requests.get(URL)
     image_bytes = io.BytesIO(response.content)
-    print(image_bytes)
+    #print(image_bytes)
     image = PIL.Image.open(image_bytes)
-    print(image)
+    #print(image)
     filename = URL
-    print(filename)
+    #print(filename)
     #this function get the format type of input image
     def get_format(filename):
         format_ = filename.split(".")[-1]
