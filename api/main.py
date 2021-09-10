@@ -158,11 +158,11 @@ async def get_body(URL):
     #print(Enhance_image)
     response = requests.get(URL)
     image_bytes = io.BytesIO(response.content)
-    print(image_bytes)
+    #print(image_bytes)
     image = PIL.Image.open(image_bytes)
-    print(image)
+    #print(image)
     filename = URL
-    print(filename)
+    #print(filename)
     #this function get the format type of input image
     def get_format(filename):
         format_ = filename.split(".")[-1]
