@@ -468,7 +468,7 @@ async def enhancement(Enhance_image: str):
 @app.post("/enhancement_logo_without_ext")
 async def enhancement_logo_without_ext(image_details: ImageDetails):
     """ 
-    #### The endpoint takes multiple parameters as inputs in the form of JSON ,enhance the image and then pastes the Square Yards logo as a watermark on the input images and then compresses it.\n
+    #### The endpoint takes image url without extension as inputs in the form of JSON ,enhance the image and then pastes the Square Yards logo as a watermark on the input images and then compresses it and returns file without extension.\n
     1. url_: Url of the image.
     2. width_percentage: Size of watermark based on the width of the image. Range (0-1).
     3. compression_info: Details regarding image compression.
@@ -528,7 +528,7 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
 @app.post("/enhancement_logo_without_ext2")
 async def enhancement_logo_without_ext(image_details: ImageDetails):
     """ 
-    #### The endpoint takes multiple parameters as inputs in the form of JSON ,enhance the image and then pastes the Square Yards logo as a watermark on the input images and then compresses it.\n
+    #### The endpoint takes image url without extension as inputs in the form of JSON ,enhance the image and then pastes the Square Yards logo as a watermark on the input images and then compresses it, return file with extension.\n
     1. url_: Url of the image.
     2. width_percentage: Size of watermark based on the width of the image. Range (0-1).
     3. compression_info: Details regarding image compression.
