@@ -489,7 +489,7 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
     """
     URL1 = image_details.url_
     URL = image_details.url_
-    
+    logger.info(URL)
     response = requests.get(URL)
     #print(response)
     img = Image.open(BytesIO(response.content))
@@ -535,7 +535,7 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
     
     #print(filename)
     
-    
+    logger.info("Result: Successful")
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
 
 
@@ -550,7 +550,7 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
     """
     URL1 = image_details.url_
     URL = image_details.url_
-   
+    logger.info(URL)
     response = requests.get(URL)
     #print(response)
     img = Image.open(BytesIO(response.content))
@@ -588,7 +588,7 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
     
-    
+    logger.info("Result: Successful")
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
 
 @app.post("/enhancement_logo")
@@ -601,6 +601,7 @@ async def enhancement_logo(image_details: ImageDetails):
     4. position: position of logo on image.
     """
     URL = image_details.url_
+    logger.info(URL)
     width_percentage = image_details.width_percentage
 
     position = image_details.position
@@ -631,7 +632,7 @@ async def enhancement_logo(image_details: ImageDetails):
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
 
-
+    logger.info("Result: Successful")
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
 
 @app.post("/addWatermark")
@@ -670,7 +671,7 @@ async def add_watermark(image_details: ImageDetails):
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
 
-
+    logger.info("Result: Successful")
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
  
  
@@ -703,6 +704,7 @@ async def add_watermarkIC(image_details: ImageDetails):
             logger.info("Error: HTTPException(status_code=500, detail= Error while processing the image.")
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
+    logger.info("Result: Successful")
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
 
 
