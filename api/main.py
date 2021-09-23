@@ -7,6 +7,10 @@ from io import BytesIO
 from typing import Optional
 from urllib.parse import urlparse
 
+
+
+from fastapi.responses import HTMLResponse
+
 import io
 import PIL
 from PIL import Image, ImageEnhance
@@ -16,6 +20,9 @@ from PIL import Image, ImageSequence
 from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
+
+import logfile
+from logfile import logger
 
 
 SQUARE_YARDS_LOGO = Image.open('./slogo.png')
@@ -53,15 +60,19 @@ async def get_image_properties(URL, width_percentage=None, position=None):
         filename = filename.strip()
     except Exception as e:
         print(e)
+        logger.info("Error: HTTPException(status_code=406, detail=Not a valid URL)")
         raise HTTPException(status_code=406, detail="Not a valid URL")
  
     if URL.lower().endswith((".jpg", ".png", ".jpeg", ".gif", ".webp")) == False:
+        logger.info("Error: HTTPException(status_code=406, detail=Not a valid URL)")
         raise HTTPException(status_code=406, detail="Not a valid URL")
  
     if width_percentage and width_percentage > 1:
+        logger.info("Error: HTTPException(status_code=406, detail=Please chose the value of width_percentage between 0.01 and 1.0)")
         raise HTTPException(status_code=406, detail="Please chose the value of width_percentage between 0.01 and 1.0")
  
     if position and position not in POSI_LIST:
+        logger.info("Error: HTTPException(status_code=406, detail=Please chose a value of position from")
         raise HTTPException(status_code=406, detail="Please chose a value of position from: " + ", ".join(POSI_LIST))
  
    
@@ -74,6 +85,7 @@ async def get_image_properties(URL, width_percentage=None, position=None):
                 contents = await resp.read()
  
         if contents == None:
+            logger.info("Error: HTTPException(status_code=406, detail=No image found.")
             raise HTTPException(status_code=406, detail="No image found.")
  
         original_image = Image.open(BytesIO(contents))
@@ -81,6 +93,7 @@ async def get_image_properties(URL, width_percentage=None, position=None):
 
     except Exception as e:
         print(e)
+        logger.info("Error: HTTPException(status_code=400, detail= Error while reading the image. Make sure that the URL is a correct image link.")
         raise HTTPException(status_code=400, detail="Error while reading the image. Make sure that the URL is a correct image link.")
     
     return filename, original_image
@@ -510,6 +523,7 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
             
     except Exception as e:
             print(e)
+            logger.info("Error: HTTPException(status_code=500, detail= Error while processing the image.")
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
 
@@ -570,7 +584,7 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
             
     except Exception as e:
             print(e)
-            
+            logger.info("Error: HTTPException(status_code=500, detail= Error while processing the image.")
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
     
@@ -613,6 +627,7 @@ async def enhancement_logo(image_details: ImageDetails):
             
     except Exception as e:
             print(e)
+            logger.info("Error: HTTPException(status_code=500, detail= Error while processing the image.)")
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
 
@@ -651,6 +666,7 @@ async def add_watermark(image_details: ImageDetails):
             
     except Exception as e:
             print(e)
+            logger.info("Error: HTTPException(status_code=500, detail=Error while processing the image.")
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
 
@@ -684,6 +700,23 @@ async def add_watermarkIC(image_details: ImageDetails):
             original_image.save(buf, format=format_, quality=quality, optimize=True)
     except Exception as e:
             print(e)
+            logger.info("Error: HTTPException(status_code=500, detail= Error while processing the image.")
             raise HTTPException(status_code=500, detail="Error while processing the image.")
     buf.seek(0)
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
+
+
+@app.get('/error_logs')
+async def get_gunicorn_error_logs():
+    path = os.path.join(os.getcwd(), 'gunicorn-error.log')
+    log_path = os.environ.get("ERROR_LOGFILE", path)
+    data = ""
+    try:
+        with open(log_path, 'r') as f:
+            data += "<ul>"
+            for s in f.readlines():
+                data += "<li>" + str(s) + "</li>"
+            data += "</ul>"
+    except:
+        pass
+    return HTMLResponse (content=data)
