@@ -7,8 +7,6 @@ from io import BytesIO
 from typing import Optional
 from urllib.parse import urlparse
 
-
-
 from fastapi.responses import HTMLResponse
 
 import io
@@ -52,39 +50,39 @@ sample_list_for_without_exten=[]
 
 def sample_list_ext(L):
     sample_list_for_without_exten.append(L)
-    print(sample_list_for_without_exten)
+    #print(sample_list_for_without_exten)
 
 total_request_extension=[]
 
 def total_req_ext(k):
     total_request_extension.append(k)
-    print(total_request_extension)
+    #print(total_request_extension)
 
 
 sample_list_for_without_exten2=[]
 
 def sample_list_ext2(L):
     sample_list_for_without_exten2.append(L)
-    print(sample_list_for_without_exten2)
+    #print(sample_list_for_without_exten2)
 
 total_request_extension2=[]
 
 def total_req_ext2(k):
     total_request_extension2.append(k)
-    print(total_request_extension2)
+    #print(total_request_extension2)
 
 
 sample_list_for_logo_enhancement=[]
 
 def sample_list_logo_enhancement(L):
     sample_list_for_logo_enhancement.append(L)
-    print(sample_list_for_logo_enhancement)
+    #print(sample_list_for_logo_enhancement)
 
 total_request_logo_enhancement=[]
 
 def total_req_logo_enhancement(k):
     total_request_logo_enhancement.append(k)
-    print(total_request_logo_enhancement)
+    #print(total_request_logo_enhancement)
 
 def extract_filename(URL):
     parsed = urlparse(URL)
