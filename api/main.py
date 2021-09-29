@@ -690,6 +690,7 @@ async def add_watermarkIC(image_details: ImageDetails):
     4. position: position of logo on image.
     """
     URL = image_details.url_
+    print(URL)
     width_percentage = image_details.width_percentage
     position = image_details.position
     filename, original_image = await get_image_properties(URL, width_percentage, position)
