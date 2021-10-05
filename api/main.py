@@ -52,39 +52,39 @@ sample_list_for_without_exten=[]
 
 def sample_list_ext(L):
     sample_list_for_without_exten.append(L)
-    print(sample_list_for_without_exten)
+    #print(sample_list_for_without_exten)
 
 total_request_extension=[]
 
 def total_req_ext(k):
     total_request_extension.append(k)
-    print(total_request_extension)
+    #print(total_request_extension)
 
 
 sample_list_for_without_exten2=[]
 
 def sample_list_ext2(L):
     sample_list_for_without_exten2.append(L)
-    print(sample_list_for_without_exten2)
+    #print(sample_list_for_without_exten2)
 
 total_request_extension2=[]
 
 def total_req_ext2(k):
     total_request_extension2.append(k)
-    print(total_request_extension2)
+    #print(total_request_extension2)
 
 
 sample_list_for_logo_enhancement=[]
 
 def sample_list_logo_enhancement(L):
     sample_list_for_logo_enhancement.append(L)
-    print(sample_list_for_logo_enhancement)
+    #print(sample_list_for_logo_enhancement)
 
 total_request_logo_enhancement=[]
 
 def total_req_logo_enhancement(k):
     total_request_logo_enhancement.append(k)
-    print(total_request_logo_enhancement)
+    #print(total_request_logo_enhancement)
 
 def extract_filename(URL):
     parsed = urlparse(URL)
@@ -280,22 +280,22 @@ async def get_body(URL):
     
 
         #______Here apply the Brightness and Color on image automatically according to there condition_____
-        if (calculate_brightness(image) > 0.6 and calculate_brightness(image) < 0.7 ): 
+        if (calculate_brightness(image) > 0.6 and calculate_brightness(image) < 0.64 ): 
             enhancer_bright = ImageEnhance.Brightness(image)
-            image = enhancer_bright.enhance(1.2)
+            image = enhancer_bright.enhance(1.1)
             #print("bright 6")
             if image:
                 enhancer_colors = ImageEnhance.Color(image)
-                image = enhancer_colors.enhance(1.4)
+                image = enhancer_colors.enhance(1.2)
                 #print("color 6")
                   
         if (calculate_brightness(image) > 0.5 and calculate_brightness(image) < 0.6): 
             enhancer_bright = ImageEnhance.Brightness(image)
-            image = enhancer_bright.enhance(1.2)
+            image = enhancer_bright.enhance(1.1)
             #print("bright 5")
             if image:
                 enhancer_colors = ImageEnhance.Color(image)
-                image = enhancer_colors.enhance(1.8)
+                image = enhancer_colors.enhance(1.3)
                 #print("color 5")
 
         
@@ -305,27 +305,27 @@ async def get_body(URL):
             #print("bright 4")
             if image:
                 enhancer_colors = ImageEnhance.Color(image)
-                image = enhancer_colors.enhance(1.5)
+                image = enhancer_colors.enhance(1.4)
                 #print("color 4")
 
         
         if (calculate_brightness(image)  > 0.3 and calculate_brightness(image) < 0.4):
             enhancer_bright = ImageEnhance.Brightness(image)
-            image = enhancer_bright.enhance(1.7)
+            image = enhancer_bright.enhance(1.5)
             #print("bright 3")
             if image:
                 enhancer_colors = ImageEnhance.Color(image)
-                image = enhancer_colors.enhance(1.5)
+                image = enhancer_colors.enhance(1.4)
                 #print("color 3")
 
         
         if (calculate_brightness(image)  > 0.2 and calculate_brightness(image) < 0.3 ):
             enhancer_bright = ImageEnhance.Brightness(image)
-            image = enhancer_bright.enhance(1.8)
+            image = enhancer_bright.enhance(1.7)
             #print("bright 2")
             if image:
                 enhancer_colors = ImageEnhance.Color(image)
-                image = enhancer_colors.enhance(1.5)
+                image = enhancer_colors.enhance(1.4)
                 #print("color 2")
 
         if (calculate_brightness(image)  > 0.1 and calculate_brightness(image) < 0.2):
@@ -545,8 +545,8 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
     URL1 = image_details.url_
     URL = image_details.url_
     logger.info(URL)
-    total_req_ext(1)
-    logger.info("Total number of request without ext: {}".format(total_request_extension.count(1)))
+    #total_req_ext(1)
+    #logger.info("Total number of request without ext: {}".format(total_request_extension.count(1)))
     response = requests.get(URL)
     #print(response)
     img = Image.open(BytesIO(response.content))
@@ -593,8 +593,8 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
     #print(filename)
     
     logger.info("Result: Successful")
-    s1=sample_list_ext(1)
-    logger.info("Successful Response without ext: {}".format(sample_list_for_without_exten.count(1)))
+    #s1=sample_list_ext(1)
+    #logger.info("Successful Response without ext: {}".format(sample_list_for_without_exten.count(1)))
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
 
 
@@ -610,8 +610,8 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
     URL1 = image_details.url_
     URL = image_details.url_
     logger.info(URL)
-    total_req_ext2(1)
-    logger.info("Total number of request without ext2: {}".format(total_request_extension2.count(1)))
+    #total_req_ext2(1)
+    #logger.info("Total number of request without ext2: {}".format(total_request_extension2.count(1)))
     response = requests.get(URL)
     #print(response)
     img = Image.open(BytesIO(response.content))
@@ -651,8 +651,8 @@ async def enhancement_logo_without_ext(image_details: ImageDetails):
     buf.seek(0)
     
     logger.info("Result: Successful")
-    s1=sample_list_ext2(1)
-    logger.info("Successful Response without ext2: {}".format(sample_list_for_without_exten2.count(1)))
+    #s1=sample_list_ext2(1)
+    #logger.info("Successful Response without ext2: {}".format(sample_list_for_without_exten2.count(1)))
     return StreamingResponse(buf, media_type=get_content_type(format_), headers={'Content-Disposition': 'inline; filename="%s"' %(filename,)})
 
 @app.post("/enhancement_logo")
